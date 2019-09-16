@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Official Twibbon SmansaUnivday 2020</title>
+    <script src="./jquery-latest.min.js" type="text/javascript"></script>
+    <link rel="shortcut icon" type="image/png" href="https://go-to-meeting-feeli.000webhostapp.com/wp-content/uploads/2019/09/Logo.png">
+    <link rel="stylesheet" href="./jquery.Jcrop.css">
+    <link rel="stylesheet" href="./asw.css">
+    <link rel="stylesheet" href="./jquery.Jcrop.min.css">
+    <link rel="stylesheet" href="./styles.css">
+   	<script src="./script_menu.js"></script>
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <header class="header">
+<section class="nav-bar">
+  <div class="nav-container">
+	  <div class="brand">
+      <a href="http://smansaunivday.web.id/"><img src="https://go-to-meeting-feeli.000webhostapp.com/wp-content/uploads/2019/09/LOGO-PAKEM-UNIVDAY-WEB-01.png"></a>
+    </div>
+ <nav>
+        <div class="nav-mobile"><a id="nav-toggle" href="#!"><span></span></a></div>
+        <ul class="nav-list">
+            <li><a href="http://smansaunivday.web.id/">Home</a></li>
+            <li><a href="http://smansaunivday.web.id/about">About</a></li>
+            <li><a href="http://smansaunivday.web.id/pendaftaran-panitia-univday-2020/">OpRec</a></li>
+            <li><a href="http://smansaunivday.web.id/twibbon/">Twibbon</a></li>
+	 </ul>
+    </nav>
+  </div>
+</section>
+        <div class="segitigaatas">
+            <img src="./pojokatas.png" />
+        </div>
+    </header>
+    <img crossorigin="Anonymous">
+
+    <section id="imagescaman" class="images-caman">
+        <div class="container">
+            <h1>
+                <img src="./SMANSAUNIVDAY.png" width="75%">
+            </h1>
+            <div class="inner-container">
+                <h2>~ Ofiicial Twibbon ~</h2>
+                <img src="./pigura.png" id="img3" width="600px" height="600px" hidden="true">
+                <div>
+                    <div class="attachment attachment-1">
+                        <div class="segitiga1"></div>
+                        <label for="attachment">Unggah Fotomu</label>
+                        <div class="segitiga2"></div>
+                        <input type="file" id="attachment" name="attachment" accept="image/*" required="">
+                    </div>
+                    <div id="result" class="image-hide">
+                        <canvas id="uploadimage" width="1600" height="1600"></canvas>
+                    </div>
+                </div>
+                <div class="new-download">
+                    <a href="./" class="btn btn-new">Unggah Foto Baru</a>
+                    <a id="download" class="btn btn-download">Unduh</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="./jquery.Jcrop.js"></script>
+    <script src="./load-image.all.min.js" type="text/javascript"></script>
+    <script src="./Blob.js" type="text/javascript"></script>
+    <script src="./canvas-toBlob.js" type="text/javascript"></script>
+    <script src="./FileSaver.js" type="text/javascript"></script>
+    <script>
+        jQuery(document).ready(function($) {
+            $('#menu-wrap').prepend('<div id="responsive">Menu</div>');
+            $('#responsive').click(function() {
+                $('#menu-wrap > ul').toggle('slow');
+            });
+        });
+
+    </script>
+    <script>
+        (function($) {
+
+            var result = $('#result');
+            var coordinates;
+            var canvas = document.getElementById("uploadimage");
+            var context = canvas.getContext("2d");
+
+            function processImage(img) {
+                $('.image-hide, .text-content-2, .new-download').show();
+                $('h2, figure, .attachment-1, .text-content-1').hide();
+                $('.images-caman').addClass('images-caman-active');
+
+                canvas.width = img.width;
+                canvas.height = img.height;
+                context.drawImage(img, 0, 0);
+                var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+                var px = imageData.data;
+                var len = px.length;
+                for (var i = 0; i < len; i += 4) {
+                    var redPx = px[i];
+                    var greenPx = px[i + 1];
+                    var bluePx = px[i + 2];
+                    var alphaPx = px[i + 3];
+                }
+                context.putImageData(imageData, 0, 0);
+
+                $('#uploadimage').Jcrop({
+                    bgOpacity: .4,
+                    allowResize: false,
+                    allowSelect: false,
+                    setSelect: [0, 0, 400, 400],
+                    aspectRatio: 1,
+                    onSelect: function(coords) {
+                        coordinates = coords
+                    },
+                    onRelease: function() {
+                        coordinates = null
+                    }
+                });
+                $('#statusedit').hide();
+            }
+
+            function displayImage(file, options) {
+                currentFile = file
+                if (!loadImage(
+                        file,
+                        processImage,
+                        options
+                    )) {
+                    alert("Your browser does not support the URL or FileReader API");
+                }
+            }
+
+            function dropChangeHandler(e) {
+                e.preventDefault()
+                e = e.originalEvent
+                var target = e.dataTransfer || e.target
+                var file = target && target.files && target.files[0]
+                var options = {
+                    maxWidth: 800,
+                    canvas: true,
+                    pixelRatio: window.devicePixelRatio,
+                    downsamplingRatio: 0.5
+                }
+                if (!file) {
+                    return
+                }
+
+                loadImage.parseMetaData(file, function(data) {
+                    if (data.exif) {
+                        options.orientation = data.exif.get('Orientation')
+                    }
+                    displayImage(file, options)
+                })
+            }
+
+            $('#attachment').on('change', dropChangeHandler)
+
+            var img3 = document.getElementById('img3');
+            var crop_canvas = document.createElement('canvas');
+            crop_canvas.width = 1241;
+            crop_canvas.height = 1241;
+            document.getElementById('download').addEventListener('click', function() {
+                var ratioY = canvas.height / result.height(),
+                    ratioX = canvas.width / result.width();
+                var getX = coordinates.x * ratioX,
+                    getY = coordinates.y * ratioY,
+                    getWidth = coordinates.h * ratioX,
+                    getHeight = coordinates.w * ratioY;
+                crop_canvas.getContext('2d').drawImage(canvas, getX, getY, getWidth, getHeight, 0, 0, 1241, 1241);
+                crop_canvas.getContext('2d').drawImage(img3, 0, 0, 1241, 1241, 0, 0, 1241, 1241);
+                crop_canvas.toBlobHD(function(blob) {
+                    saveAs(blob, "SMNSUNIVDAY.png");
+                }, "image/png");
+
+            }, false);
+        })(jQuery);
+
+    </script>
+    <footer>
+        <div class="segitigabawah">
+            <img src="./pojokbawah.png" />
+        </div>
+    </footer>
+</body>
+
+</html>
